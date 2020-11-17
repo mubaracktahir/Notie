@@ -28,14 +28,28 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false)
-        init()
-
         // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false)
         return binding.root
     }
 
-    fun init() {
+    private fun init() {
+        initializeRecyclerView()
+        initializeNavigationView()
+        createNewNotes()
+    }
+
+    private fun initializeRecyclerView() {
+        adapter = RecyclerviewAdapter {
+            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+        }
+        binding.root.recycler_view.setHasFixedSize(true)
+        binding.root.recycler_view.layoutManager =
+            StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+        binding.root.recycler_view.adapter = adapter
+    }
+
+    private fun initializeNavigationView() {
         binding.root.navigation_drawer.setNavigationItemSelectedListener {
             val id = it.itemId
             when (id) {
@@ -52,15 +66,9 @@ class HomeFragment : Fragment() {
 
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                 val diffScaleOffset = slideOffset * (1 - 0.7f);
-                /*   val offStScale = 1 - diffScaleOffset
-                   content_view.scaleX = offStScale
-                   content_view.scaleY = offStScale*/
-
-
                 val xOffSetScale = drawerView.width * slideOffset
                 val xOffScaleDiff = binding.root.content_view.width * diffScaleOffset / 2
                 val xTranslation = xOffSetScale - xOffScaleDiff
-
                 binding.root.content_view.translationX = xTranslation
 
             }
@@ -80,15 +88,10 @@ class HomeFragment : Fragment() {
             else
                 binding.root.drawer_layout.openDrawer(GravityCompat.START)
         }
+    }
 
-        arrayList = ArrayList<String>()
-        adapter = RecyclerviewAdapter {
-            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
-        }
-        binding.root.recycler_view.setHasFixedSize(true)
-        binding.root.recycler_view.layoutManager =
-            StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-        binding.root.recycler_view.adapter = adapter
+    private fun createNewNotes() {
+        arrayList = ArrayList()
 
         binding.root.fab.setOnClickListener { view ->
             arrayList.add(0, "Hello, my name is Mubarack Tahirdfvfdvdfvdfvdfvdfvdfvd")
@@ -112,16 +115,11 @@ class HomeFragment : Fragment() {
             adapter.notes.addAll(arrayList)
             adapter.notifyDataSetChanged()
         }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        init()
     }
-
-    /*override fun onBackPressed() {
-        if (drawer_layout.isDrawerVisible(GravityCompat.START))
-            drawer_layout.closeDrawer(GravityCompat.START)
-        else
-            super.onBackPressed()
-    }*/
 }
