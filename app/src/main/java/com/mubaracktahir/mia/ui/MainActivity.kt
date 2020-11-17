@@ -1,11 +1,9 @@
-package com.mubaracktahir.mia
+package com.mubaracktahir.mia.ui
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
+import com.mubaracktahir.mia.R
 import com.mubaracktahir.mia.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -13,6 +11,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        //setting content view
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_main
+        )
     }
 }

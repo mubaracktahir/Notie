@@ -1,4 +1,4 @@
-package com.mubaracktahir.mia
+package com.mubaracktahir.mia.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.mubaracktahir.mia.R
 import com.mubaracktahir.mia.adapter.RecyclerviewAdapter
 import com.mubaracktahir.mia.databinding.FragmentFirstBinding
 import kotlinx.android.synthetic.main.content_main.view.*
@@ -18,27 +19,45 @@ import kotlinx.android.synthetic.main.fragment_first.view.*
 
 
 /**
- * A simple [Fragment] subclass as the default destination in the navigation.
+ * A simple [Fragment] {HomeFragment} subclass as the default destination in the navigation.
  */
 class HomeFragment : Fragment() {
     lateinit var adapter: RecyclerviewAdapter
-    lateinit var arrayList: ArrayList<String>
+    var arrayList: ArrayList<String> = ArrayList()
     lateinit var binding: FragmentFirstBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_first, container, false)
+        binding = DataBindingUtil.inflate(inflater,
+            R.layout.fragment_first, container, false)
         return binding.root
     }
 
+    /**
+     * Initializing view and listeners
+     * [initializeRecyclerView] [initializeNavigationView] [createNewNotes]
+     */
     private fun init() {
+
+        //recyclerView init
         initializeRecyclerView()
+
+        //drawerLayout init
         initializeNavigationView()
-        createNewNotes()
+
+        //fab to create note
+        binding.root.fab.setOnClickListener { view ->
+            createNewNotes()
+        }
     }
 
+    /**
+     *
+     * Setting up recyclerView
+     *
+     */
     private fun initializeRecyclerView() {
         adapter = RecyclerviewAdapter {
             Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
@@ -49,6 +68,11 @@ class HomeFragment : Fragment() {
         binding.root.recycler_view.adapter = adapter
     }
 
+    /**
+     *
+     *  setting up navigation View and DrawerLayout (that thing that is being swiped from the left)
+     *
+     */
     private fun initializeNavigationView() {
         binding.root.navigation_drawer.setNavigationItemSelectedListener {
             val id = it.itemId
@@ -90,31 +114,32 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     *
+     *Create new Notes this is dummy though it would be changed soon
+     */
     private fun createNewNotes() {
-        arrayList = ArrayList()
 
-        binding.root.fab.setOnClickListener { view ->
-            arrayList.add(0, "Hello, my name is Mubarack Tahirdfvfdvdfvdfvdfvdfvdfvd")
-            arrayList.add(
-                0, "Hello, my name is Mubarack Tahirdfvfdvdfvdfvdfvdfvdfvd" +
-                        "Tahirdfvfdvdfvdfvdfvdfvdfvd" +
-                        "Tahirdfvfdvdfvdfvdfvdfvdfvd" +
-                        "Tahirdfvfdvdfvdfvdfvdfvdfvd" +
-                        "Tahirdfvfdvdfvdfvdfvdfvdfvd" +
-                        "Tahirdfvfdvdfvdfvdfvdfvdfvd" +
-                        "Tahirdfvfdvdfvdfvdfvdfvdfvd"
-            )
-            arrayList.add(
-                0, "Hello, my name is Mubarack Tahirdfvfdvdfvdfvdfvdfvdfvd" +
-                        "Tahirdfvfdvdfvdfvdfvdfvdfvd" +
-                        "Tahirdfvfdvdfvdfvdfvdfvdfvd" +
-                        "Tahirdfvfdvdfvdfvdfvdfvdfvd"
-            )
+        arrayList.add(0, "Hello, What will you like for lunch?")
+        arrayList.add(
+            0, "Hello, my name is Mubarack," + " I am an android Developer"
+        )
+        arrayList.add(
+            0, "I'm at work, I will call you when I'm  back. Say me hi to henry. Bye for now."
+        )
+        arrayList.add(
+            0, "\"This is a sign of the signature\""
+        )
+        arrayList.add(
+            0,
+            "\"Who should i give my love too, listen most too, never say 'no' too after Allah " +
+                    "and rasullulah? \ncount your Mother, \nwho next ? \nyour Mother \nWho next?" +
+                    "\nYour mother and then your father\""
+        )
 
-            adapter.notes.clear()
-            adapter.notes.addAll(arrayList)
-            adapter.notifyDataSetChanged()
-        }
+        adapter.notes.clear()
+        adapter.notes.addAll(arrayList)
+        adapter.notifyDataSetChanged()
 
     }
 
