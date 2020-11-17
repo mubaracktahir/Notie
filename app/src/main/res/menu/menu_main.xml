@@ -1,0 +1,55 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.mubaracktahir.mia.MainActivity">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/all_notes"
+            android:icon="@drawable/notes_icon"
+            android:iconTint="@android:color/white"
+            android:orderInCategory="100"
+            android:title="@string/all_notes"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/reminder"
+            android:icon="@drawable/bell_icon"
+            android:orderInCategory="100"
+            android:title="@string/reminders"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/labels"
+            android:icon="@drawable/label_icon"
+            android:orderInCategory="100"
+            android:title="@string/labels"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/archive"
+            android:icon="@drawable/archive_icon"
+            android:orderInCategory="100"
+            android:title="@string/archives"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/trash"
+            android:icon="@drawable/trash_icon"
+            android:orderInCategory="100"
+            android:title="@string/trash" />
+        <item
+            android:id="@+id/dark_theme"
+            android:icon="@drawable/moon_icon"
+            android:orderInCategory="100"
+            android:title="@string/dark_theme"
+            app:actionViewClass="android.widget.Switch" />
+        <item
+            android:id="@+id/settings"
+            android:icon="@drawable/settings_icon"
+            android:orderInCategory="100"
+            android:title="@string/settings" />
+
+        <item
+            android:id="@+id/help_center"
+            android:icon="@drawable/help_icon"
+            android:orderInCategory="100"
+            android:title="@string/help_center" />
+    </group>
+</menu>
