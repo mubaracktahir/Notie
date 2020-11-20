@@ -1,11 +1,11 @@
-package com.mubaracktahir.mia.ui
+package com.mubaracktahir.notie.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.mubaracktahir.mia.R
+import com.mubaracktahir.notie.R
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.

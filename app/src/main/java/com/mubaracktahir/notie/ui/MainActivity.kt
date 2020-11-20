@@ -1,4 +1,4 @@
-package com.mubaracktahir.mia.ui
+package com.mubaracktahir.notie.ui
 
 import android.os.Build
 import android.os.Bundle
@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
-import com.mubaracktahir.mia.R
-import com.mubaracktahir.mia.databinding.ActivityMainBinding
+import com.mubaracktahir.notie.R
+import com.mubaracktahir.notie.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer {
 

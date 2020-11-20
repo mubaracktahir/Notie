@@ -1,4 +1,4 @@
-package com.mubaracktahir.mia.models
+package com.mubaracktahir.notie.models
 
 
 /**

@@ -1,4 +1,4 @@
-package com.mubaracktahir.mia
+package com.mubaracktahir.notie
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.mubaracktahir.mia.ui
+package com.mubaracktahir.notie.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -10,10 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.mubaracktahir.mia.R
-import com.mubaracktahir.mia.adapter.RecyclerviewAdapter
-import com.mubaracktahir.mia.databinding.FragmentFirstBinding
-import com.mubaracktahir.mia.models.Note
+import com.mubaracktahir.notie.R
+import com.mubaracktahir.notie.adapter.RecyclerviewAdapter
+import com.mubaracktahir.notie.databinding.FragmentFirstBinding
+import com.mubaracktahir.notie.models.Note
 import kotlinx.android.synthetic.main.content_main.view.*
 import kotlinx.android.synthetic.main.fragment_first.view.*
 

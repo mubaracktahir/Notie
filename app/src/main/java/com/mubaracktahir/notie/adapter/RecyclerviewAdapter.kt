@@ -1,11 +1,11 @@
-package com.mubaracktahir.mia.adapter
+package com.mubaracktahir.notie.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mubaracktahir.mia.R
-import com.mubaracktahir.mia.models.Note
+import com.mubaracktahir.notie.R
+import com.mubaracktahir.notie.models.Note
 import kotlinx.android.synthetic.main.info_layout.view.*
 import kotlinx.android.synthetic.main.todo_list_layout.view.card_view
 
