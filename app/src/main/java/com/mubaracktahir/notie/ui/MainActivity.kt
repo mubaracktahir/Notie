@@ -8,19 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.LifecycleObserver
 import com.mubaracktahir.notie.R
 import com.mubaracktahir.notie.databinding.ActivityMainBinding
+import com.mubaracktahir.notie.ui.screens.notes.HomeFragment
 
-class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer {
-
+class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer, LifecycleObserver {
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setting content view
-        binding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_main
-        )
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         init()
     }
 
@@ -39,9 +37,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer {
      */
     private fun initializeNavigationView() {
 
-
         listenForNavigationItemSelections()
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             binding.drawerLayout.setScrimColor(
                 resources.getColor(
@@ -51,7 +47,6 @@ class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer {
             )
         } else {
             binding.drawerLayout.setScrimColor(resources.getColor(R.color.colorPrimaryDark))
-
         }
 
         binding.drawerLayout.addDrawerListener(object : DrawerLayout.DrawerListener {
@@ -79,8 +74,6 @@ class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer {
         binding.navigationDrawer.setCheckedItem(R.id.all_notes)
 
     }
-
-
     /**
      *
      * when ever an item is selected in the navigationDrawer this function
@@ -105,4 +98,5 @@ class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer {
         else
             binding.drawerLayout.openDrawer(GravityCompat.START)
     }
+
 }

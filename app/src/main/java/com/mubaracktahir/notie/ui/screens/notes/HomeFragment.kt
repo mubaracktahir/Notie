@@ -1,4 +1,4 @@
-package com.mubaracktahir.notie.ui
+package com.mubaracktahir.notie.ui.screens.notes
 
 import android.content.Context
 import android.os.Bundle

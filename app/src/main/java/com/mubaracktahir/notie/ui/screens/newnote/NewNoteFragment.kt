@@ -1,4 +1,4 @@
-package com.mubaracktahir.notie.ui
+package com.mubaracktahir.notie.ui.screens.newnote
 
 import android.os.Bundle
 import android.view.LayoutInflater

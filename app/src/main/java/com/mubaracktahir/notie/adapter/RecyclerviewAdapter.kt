@@ -5,9 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mubaracktahir.notie.R
+import com.mubaracktahir.notie.databinding.InfoLayoutBinding
 import com.mubaracktahir.notie.models.Note
-import kotlinx.android.synthetic.main.info_layout.view.*
-import kotlinx.android.synthetic.main.todo_list_layout.view.card_view
+import kotlinx.android.synthetic.main.todo_list_layout.view.*
 
 
 /**
@@ -82,7 +82,7 @@ class RecyclerviewAdapter(val listener: (text: String) -> Unit) :
             todoViewHolder.bind("", listener)
         } else {
             val infoViewHolder = holder as InfoViewHolder
-            infoViewHolder.bind(notes[position].description, listener)
+            infoViewHolder.bind(notes[position], listener)
         }
 
     }
@@ -93,18 +93,19 @@ class RecyclerviewAdapter(val listener: (text: String) -> Unit) :
      * The InfoViewHolder class
      *
      */
-    class InfoViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(note: String, listener: (text: String) -> Unit) {
-            view.textview.text = note
-            view.card_view.setOnClickListener {
-                listener(note)
+    class InfoViewHolder(val binding: InfoLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(note: Note, listener: (text: String) -> Unit) {
+            binding.note = note
+            binding.executePendingBindings()
+            binding.cardView.setOnClickListener {
+                listener(note.description)
             }
         }
 
         companion object {
             fun from(parent: ViewGroup): InfoViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val view = layoutInflater.inflate(R.layout.info_layout, parent, false)
+                val view = InfoLayoutBinding.inflate(layoutInflater, parent, false)
                 return InfoViewHolder(view)
             }
         }
