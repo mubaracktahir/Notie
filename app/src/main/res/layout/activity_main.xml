@@ -2,19 +2,42 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
         android:fitsSystemWindows="true"
         app:elevation="0dp">
 
-        <fragment
-            android:id="@+id/navHostFragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_drawer"
+            android:layout_width="350dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#283040"
+            android:theme="@style/navigationTheme"
+            app:headerLayout="@layout/header_layout"
+            app:itemBackground="@drawable/menu_item_padding"
+            app:itemHorizontalPadding="40dp"
+            app:itemIconTint="@android:color/white"
+            app:itemShapeInsetBottom="20dp"
+            app:menu="@menu/menu_main" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:navGraph="@navigation/nav_graph" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:background="@color/colorPrimaryDark"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
+
+            <fragment
+                android:id="@+id/navHostFragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:navGraph="@navigation/nav_graph" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
