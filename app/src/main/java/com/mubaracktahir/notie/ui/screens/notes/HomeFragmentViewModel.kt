@@ -3,6 +3,7 @@ package com.mubaracktahir.notie.ui.screens.notes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.ajalt.timberkt.d
 import com.mubaracktahir.notie.models.Note
 
 
@@ -12,7 +13,8 @@ import com.mubaracktahir.notie.models.Note
  * mubarack.tahirr@gmail.com
  */
 class HomeFragmentViewModel : ViewModel() {
-
+    private val _noteChanged = MutableLiveData<Boolean>()
+    val noteChanged: LiveData<Boolean> get() = _noteChanged
     val arrayList = ArrayList<Note>()
     fun createNewNote() {
         arrayList.add(
@@ -31,5 +33,10 @@ class HomeFragmentViewModel : ViewModel() {
                 date = "23:00"
             )
         )
+        _noteChanged.value = true
+    }
+
+    init {
+        _noteChanged.value = false
     }
 }

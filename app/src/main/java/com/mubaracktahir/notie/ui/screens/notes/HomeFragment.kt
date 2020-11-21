@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -15,7 +16,6 @@ import com.mubaracktahir.notie.R
 import com.mubaracktahir.notie.adapter.RecyclerviewAdapter
 import com.mubaracktahir.notie.databinding.FragmentFirstBinding
 import kotlinx.android.synthetic.main.content_main.view.*
-import kotlinx.android.synthetic.main.fragment_first.view.*
 
 
 /**
@@ -55,20 +55,19 @@ class HomeFragment : Fragment() {
      */
 
     private fun init() {
-
         //recyclerView init
         initializeRecyclerView()
         refreshList()
+
         //drawer click
         binding.drawerButton.setOnClickListener {
             drawers.openDrawerLayout()
         }
 
-        //fab to create note
-        binding.root.fab.setOnClickListener { view ->
-            createNewNotes()
-        }
-
+        viewModel.noteChanged.observe(this.viewLifecycleOwner, Observer {
+            if (it)
+                refreshList()
+        })
     }
 
     /**
@@ -86,16 +85,6 @@ class HomeFragment : Fragment() {
         binding.root.recycler_view.adapter = adapter
     }
 
-
-    /**
-     *
-     *Create new Notes this is dummy though it would be changed soon
-     */
-    private fun createNewNotes() {
-        viewModel.createNewNote()
-        refreshList()
-    }
-
     private fun refreshList() {
         adapter.notes.clear()
         adapter.notes.addAll(viewModel.arrayList)
@@ -109,12 +98,12 @@ class HomeFragment : Fragment() {
 
         }
         super.onAttach(context)
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
+        binding.viewModel = viewModel
         init()
     }
 }
