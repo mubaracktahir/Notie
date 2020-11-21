@@ -8,4 +8,6 @@ package com.mubaracktahir.notie.utils
  */
 object Constants {
     val TABLE_NAME = "note_table"
+    val DATABASE_NAME = "note_data_base"
+
 }
