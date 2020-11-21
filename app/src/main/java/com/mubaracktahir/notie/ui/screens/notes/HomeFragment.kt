@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mubaracktahir.notie.R
 import com.mubaracktahir.notie.adapter.RecyclerviewAdapter
 import com.mubaracktahir.notie.databinding.FragmentFirstBinding
-import com.mubaracktahir.notie.models.Note
 import kotlinx.android.synthetic.main.content_main.view.*
 import kotlinx.android.synthetic.main.fragment_first.view.*
 
@@ -24,9 +24,9 @@ import kotlinx.android.synthetic.main.fragment_first.view.*
 class HomeFragment : Fragment() {
 
     lateinit var adapter: RecyclerviewAdapter
-    var arrayList: ArrayList<Note> = ArrayList()
     lateinit var binding: FragmentFirstBinding
     lateinit var drawers: ManageDrawer
+    lateinit var viewModel: HomeFragmentViewModel
 
     /**
      *  This interface serves as a call back from the parent activity [MainActivity]
@@ -58,7 +58,7 @@ class HomeFragment : Fragment() {
 
         //recyclerView init
         initializeRecyclerView()
-
+        refreshList()
         //drawer click
         binding.drawerButton.setOnClickListener {
             drawers.openDrawerLayout()
@@ -92,19 +92,15 @@ class HomeFragment : Fragment() {
      *Create new Notes this is dummy though it would be changed soon
      */
     private fun createNewNotes() {
-        arrayList.add(Note(isTodo = false,description = "Hello, What will you like for lunch?",todoList = arrayListOf(),date = "23:00"))
-        arrayList.add(Note(isTodo = true,description = "Hello, What will you like for lunch?",todoList = arrayListOf(),date = "23:00"))
+        viewModel.createNewNote()
+        refreshList()
+    }
+
+    private fun refreshList() {
         adapter.notes.clear()
-        adapter.notes.addAll(arrayList)
+        adapter.notes.addAll(viewModel.arrayList)
         adapter.notifyDataSetChanged()
-
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        init()
-    }
-
 
     override fun onAttach(context: Context) {
         try {
@@ -114,5 +110,11 @@ class HomeFragment : Fragment() {
         }
         super.onAttach(context)
 
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
+        init()
     }
 }
