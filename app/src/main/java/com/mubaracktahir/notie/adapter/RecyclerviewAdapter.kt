@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mubaracktahir.notie.R
 import com.mubaracktahir.notie.databinding.InfoLayoutBinding
 import com.mubaracktahir.notie.models.Note
+
+
 import kotlinx.android.synthetic.main.todo_list_layout.view.*
 
 
@@ -77,7 +79,10 @@ class RecyclerviewAdapter(val listener: (text: String) -> Unit) :
      *
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
+
         if (getItemViewType(position) == TODO_LIST) {
+
             val todoViewHolder = holder as TodoViewHolder
             todoViewHolder.bind("", listener)
         } else {

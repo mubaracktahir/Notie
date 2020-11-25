@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.mubaracktahir.notie.db.Entity.Note
+import androidx.room.TypeConverters
+import com.mubaracktahir.notie.db.Entity.NoteEntity
 import com.mubaracktahir.notie.db.dao.NoteDao
 import com.mubaracktahir.notie.utils.Constants.DATABASE_NAME
 
@@ -15,17 +16,17 @@ import com.mubaracktahir.notie.utils.Constants.DATABASE_NAME
  * mubarack.tahirr@gmail.com
  */
 
-@Database(entities = [Note::class], version = 1, exportSchema = false)
+@Database(entities = [NoteEntity::class], version = 2)
+@TypeConverters(DataConverter::class)
 abstract class NoteDatabase : RoomDatabase() {
-    abstract val noteDao: NoteDao
 
+    abstract val noteDao: NoteDao
     companion object {
         @Volatile
         private var INSTANCE: NoteDatabase? = null
         fun getInstance(context: Context): NoteDatabase {
             synchronized(this) {
                 var instance = INSTANCE
-
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
@@ -35,7 +36,6 @@ abstract class NoteDatabase : RoomDatabase() {
                         .build()
                     INSTANCE = instance
                 }
-
                 return instance
             }
         }

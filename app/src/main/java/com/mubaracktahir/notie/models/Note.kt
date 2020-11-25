@@ -18,6 +18,6 @@ data class Note(
     val id: Long,
     val isTodo: Boolean,
     val description: String,
-    val todoList: ArrayList<String>? = arrayListOf(),
-    val date: String
+    val todoList: List<String>? = arrayListOf(),
+    val date: Long
 )

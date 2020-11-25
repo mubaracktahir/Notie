@@ -92,6 +92,7 @@ class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer, LifecycleOb
         }
     }
 
+
     override fun openDrawerLayout() {
         if (binding.drawerLayout.isDrawerVisible(GravityCompat.START))
             binding.drawerLayout.closeDrawer(GravityCompat.START)

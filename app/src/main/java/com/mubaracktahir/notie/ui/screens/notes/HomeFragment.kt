@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mubaracktahir.notie.R
 import com.mubaracktahir.notie.adapter.RecyclerviewAdapter
 import com.mubaracktahir.notie.databinding.FragmentFirstBinding
+import com.mubaracktahir.notie.db.NoteDatabase
+import com.mubaracktahir.notie.models.Note
+import com.mubaracktahir.notie.db.Entity.DataBaseEntitymapper
 import kotlinx.android.synthetic.main.content_main.view.*
 
 
@@ -68,8 +71,14 @@ class HomeFragment : Fragment() {
             if (it)
                 refreshList()
         })
+        viewModel.notes.observe(this.viewLifecycleOwner, Observer {
+            listOfNote.clear()
+            for (i in it)
+                listOfNote.add(mapp.fromEntityToDomainModel(i))
+        })
     }
 
+    val mapp = DataBaseEntitymapper()
     /**
      *
      * Setting up recyclerView
@@ -85,9 +94,11 @@ class HomeFragment : Fragment() {
         binding.root.recycler_view.adapter = adapter
     }
 
+    var listOfNote = arrayListOf<Note>()
     private fun refreshList() {
+
         adapter.notes.clear()
-        adapter.notes.addAll(viewModel.arrayList)
+        adapter.notes.addAll(listOfNote)
         adapter.notifyDataSetChanged()
     }
 
@@ -100,9 +111,17 @@ class HomeFragment : Fragment() {
         super.onAttach(context)
     }
 
+    lateinit var homeFragmentViewModelFactory: HomeFragmentViewModelFactory
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
+        val context = requireNotNull(this.activity).application
+        val noteDao = NoteDatabase.getInstance(context).noteDao
+        homeFragmentViewModelFactory =
+            HomeFragmentViewModelFactory(context = context, noteDao = noteDao)
+        viewModel = ViewModelProvider(
+            this,
+            homeFragmentViewModelFactory
+        ).get(HomeFragmentViewModel::class.java)
         binding.viewModel = viewModel
         init()
     }

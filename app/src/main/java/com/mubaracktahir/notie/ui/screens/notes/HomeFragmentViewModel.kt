@@ -1,10 +1,14 @@
 package com.mubaracktahir.notie.ui.screens.notes
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.github.ajalt.timberkt.d
-import com.mubaracktahir.notie.models.Note
+import com.mubaracktahir.notie.db.Entity.NoteEntity
+import com.mubaracktahir.notie.db.dao.NoteDao
+import com.mubaracktahir.notie.db.Entity.DataBaseEntitymapper
+import kotlinx.coroutines.*
 
 
 /**
@@ -12,31 +16,69 @@ import com.mubaracktahir.notie.models.Note
  * Mubby inc
  * mubarack.tahirr@gmail.com
  */
-class HomeFragmentViewModel : ViewModel() {
+class HomeFragmentViewModel(context: Application, val dataBase: NoteDao) :
+    AndroidViewModel(context) {
+
+
     private val _noteChanged = MutableLiveData<Boolean>()
     val noteChanged: LiveData<Boolean> get() = _noteChanged
-    val arrayList = ArrayList<Note>()
+
+    private val _list = MutableLiveData<List<NoteEntity>>()
+    val list: LiveData<List<NoteEntity>> get() = _list
+
+    lateinit var notes: LiveData<List<NoteEntity>>
+
+    val job = Job()
+
+    val uiScope = CoroutineScope(Dispatchers.Main + job)
+
+    init {
+        _noteChanged.value = true
+        notes = dataBase.getAllNotes()
+        //loadNote()
+    }
+
     fun createNewNote() {
-        arrayList.add(
-            Note(
-                isTodo = false,
-                description = "Hello, What will you like for lunch?",
-                todoList = arrayListOf(),
-                date = "23:00"
+        uiScope.launch {
+            insertNote(
+                NoteEntity(
+                    isTodo = true,
+                    description = "Hello, What will you like for lunch?",
+                    todoList = arrayListOf(),
+                    date = 10000
+                )
             )
-        )
-        arrayList.add(
-            Note(
-                isTodo = true,
-                description = "Hello, What will you like for lunch?",
-                todoList = arrayListOf(),
-                date = "23:00"
-            )
-        )
+        }
         _noteChanged.value = true
     }
 
-    init {
-        _noteChanged.value = false
+    val mappper = DataBaseEntitymapper()
+
+    private suspend fun insertNote(note: NoteEntity) {
+
+        return withContext(Dispatchers.IO) {
+            dataBase.insert(note)
+            d {
+                "inserted successfully"
+            }
+        }
+    }
+
+    private fun loadNote() {
+        uiScope.launch {
+            _list.value = fetch().value ?: return@launch
+            _noteChanged.value = true
+        }
+    }
+
+    suspend fun fetch(): LiveData<List<NoteEntity>> {
+        return withContext(Dispatchers.IO) {
+            dataBase.getAllNotes()
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
     }
 }
