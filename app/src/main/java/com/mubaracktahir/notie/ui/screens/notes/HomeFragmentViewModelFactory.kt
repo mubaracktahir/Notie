@@ -3,7 +3,7 @@ package com.mubaracktahir.notie.ui.screens.notes
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.mubaracktahir.notie.db.dao.NoteDao
+import com.mubaracktahir.notie.repo.MainRepo
 
 
 /**
@@ -11,10 +11,11 @@ import com.mubaracktahir.notie.db.dao.NoteDao
  * Mubby inc
  * mubarack.tahirr@gmail.com
  */
-class HomeFragmentViewModelFactory(val context: Application, val noteDao: NoteDao) : ViewModelProvider.Factory {
+class HomeFragmentViewModelFactory(val context: Application, val mainRepo: MainRepo) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeFragmentViewModel::class.java))
-        return HomeFragmentViewModel(context,noteDao) as T
+            return HomeFragmentViewModel(context, mainRepo) as T
         throw IllegalArgumentException("UnKnown view Model Class ")
 
     }

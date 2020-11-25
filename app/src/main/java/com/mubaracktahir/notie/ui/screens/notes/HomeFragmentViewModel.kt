@@ -8,6 +8,7 @@ import com.github.ajalt.timberkt.d
 import com.mubaracktahir.notie.db.Entity.NoteEntity
 import com.mubaracktahir.notie.db.dao.NoteDao
 import com.mubaracktahir.notie.db.Entity.DataBaseEntitymapper
+import com.mubaracktahir.notie.repo.MainRepo
 import kotlinx.coroutines.*
 
 
@@ -16,7 +17,7 @@ import kotlinx.coroutines.*
  * Mubby inc
  * mubarack.tahirr@gmail.com
  */
-class HomeFragmentViewModel(context: Application, val dataBase: NoteDao) :
+class HomeFragmentViewModel(context: Application, val mainRepo: MainRepo) :
     AndroidViewModel(context) {
 
 
@@ -34,7 +35,7 @@ class HomeFragmentViewModel(context: Application, val dataBase: NoteDao) :
 
     init {
         _noteChanged.value = true
-        notes = dataBase.getAllNotes()
+        //notes = dataBase.getAllNotes()
         //loadNote()
     }
 
@@ -57,7 +58,7 @@ class HomeFragmentViewModel(context: Application, val dataBase: NoteDao) :
     private suspend fun insertNote(note: NoteEntity) {
 
         return withContext(Dispatchers.IO) {
-            dataBase.insert(note)
+           // dataBase.insert(note)
             d {
                 "inserted successfully"
             }
@@ -73,7 +74,9 @@ class HomeFragmentViewModel(context: Application, val dataBase: NoteDao) :
 
     suspend fun fetch(): LiveData<List<NoteEntity>> {
         return withContext(Dispatchers.IO) {
-            dataBase.getAllNotes()
+
+            TODO("")
+          //  dataBase.getAllNotes()
         }
     }
 

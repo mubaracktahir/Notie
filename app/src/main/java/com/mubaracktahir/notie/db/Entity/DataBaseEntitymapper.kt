@@ -2,6 +2,7 @@ package com.mubaracktahir.notie.db.Entity
 
 import com.mubaracktahir.notie.models.Note
 import com.mubaracktahir.notie.utils.Mapper
+import javax.inject.Inject
 
 
 /**
@@ -9,7 +10,7 @@ import com.mubaracktahir.notie.utils.Mapper
  * Mubby inc
  * mubarack.tahirr@gmail.com
  */
-class DataBaseEntitymapper : Mapper<NoteEntity, Note> {
+class DataBaseEntitymapper @Inject constructor() : Mapper<NoteEntity, Note> {
     override fun fromEntityToDomainModel(entityModel: NoteEntity): Note {
         return Note(
             id = entityModel.id,
