@@ -8,16 +8,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.LifecycleObserver
 import com.mubaracktahir.notie.R
 import com.mubaracktahir.notie.databinding.ActivityMainBinding
 import com.mubaracktahir.notie.ui.screens.notes.HomeFragment
+import com.mubaracktahir.notie.ui.screens.MainFragmentViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer, LifecycleObserver {
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(), HomeFragment.ManageDrawer {
     lateinit var binding: ActivityMainBinding
+
+    @Inject lateinit var homeFragmentViewModelFactory: MainFragmentViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setting content view
+        //supportFragmentManager.fragmentFactory = homeFragmentViewModelFactory
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         init()
     }

@@ -32,8 +32,6 @@ object RoomModule {
         )
             .fallbackToDestructiveMigration()
             .build()
-
-
     }
 
     @Provides

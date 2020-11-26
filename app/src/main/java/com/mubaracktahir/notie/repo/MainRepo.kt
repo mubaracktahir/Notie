@@ -11,9 +11,9 @@ import javax.inject.Inject
  * Mubby inc
  * mubarack.tahirr@gmail.com
  */
-class MainRepo @Inject constructor(
-    noteDao: NoteDao,
-    noteDatabase: NoteDatabase,
-    dataBaseEntitymapper: DataBaseEntitymapper
+class MainRepo constructor(
+    val noteDao: NoteDao,
+    val dataBaseEntitymapper: DataBaseEntitymapper
 ) {
+    fun getAllNote() = noteDao.getAllNotes()
 }

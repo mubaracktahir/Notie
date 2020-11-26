@@ -1,15 +1,14 @@
 package com.mubaracktahir.notie.ui.screens.notes
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import com.github.ajalt.timberkt.d
 import com.mubaracktahir.notie.db.Entity.NoteEntity
-import com.mubaracktahir.notie.db.dao.NoteDao
-import com.mubaracktahir.notie.db.Entity.DataBaseEntitymapper
 import com.mubaracktahir.notie.repo.MainRepo
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 
 /**
@@ -17,9 +16,11 @@ import kotlinx.coroutines.*
  * Mubby inc
  * mubarack.tahirr@gmail.com
  */
-class HomeFragmentViewModel(context: Application, val mainRepo: MainRepo) :
-    AndroidViewModel(context) {
-
+class HomeFragmentViewModel @ViewModelInject constructor(
+    @Assisted savedStateHandle: SavedStateHandle,
+    private val mainRepo: MainRepo
+) :
+    ViewModel() {
 
     private val _noteChanged = MutableLiveData<Boolean>()
     val noteChanged: LiveData<Boolean> get() = _noteChanged
@@ -53,12 +54,12 @@ class HomeFragmentViewModel(context: Application, val mainRepo: MainRepo) :
         _noteChanged.value = true
     }
 
-    val mappper = DataBaseEntitymapper()
+    val mappper = mainRepo.getAllNote()
 
     private suspend fun insertNote(note: NoteEntity) {
 
         return withContext(Dispatchers.IO) {
-           // dataBase.insert(note)
+            // dataBase.insert(note)
             d {
                 "inserted successfully"
             }
@@ -76,7 +77,7 @@ class HomeFragmentViewModel(context: Application, val mainRepo: MainRepo) :
         return withContext(Dispatchers.IO) {
 
             TODO("")
-          //  dataBase.getAllNotes()
+            //  dataBase.getAllNotes()
         }
     }
 
@@ -84,4 +85,9 @@ class HomeFragmentViewModel(context: Application, val mainRepo: MainRepo) :
         super.onCleared()
         job.cancel()
     }
+}
+
+sealed class MainStateEvent {
+    object GetNoteEvents : MainStateEvent()
+    object None : MainStateEvent()
 }

@@ -8,28 +8,32 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mubaracktahir.notie.R
 import com.mubaracktahir.notie.adapter.RecyclerviewAdapter
 import com.mubaracktahir.notie.databinding.FragmentFirstBinding
-import com.mubaracktahir.notie.db.NoteDatabase
-import com.mubaracktahir.notie.models.Note
 import com.mubaracktahir.notie.db.Entity.DataBaseEntitymapper
+import com.mubaracktahir.notie.models.Note
+import com.mubaracktahir.notie.repo.MainRepo
+import com.mubaracktahir.notie.ui.screens.MainFragmentViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.content_main.view.*
+import javax.inject.Inject
 
 
 /**
  * A simple [Fragment] {HomeFragment} subclass as the default destination in the navigation.
  */
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     lateinit var adapter: RecyclerviewAdapter
     lateinit var binding: FragmentFirstBinding
     lateinit var drawers: ManageDrawer
-    lateinit var viewModel: HomeFragmentViewModel
+    val viewModel: HomeFragmentViewModel by viewModels()
 
     /**
      *  This interface serves as a call back from the parent activity [MainActivity]
@@ -71,7 +75,7 @@ class HomeFragment : Fragment() {
             if (it)
                 refreshList()
         })
-        viewModel.notes.observe(this.viewLifecycleOwner, Observer {
+        viewModel.mappper.observe(this.viewLifecycleOwner, Observer {
             listOfNote.clear()
             for (i in it)
                 listOfNote.add(mapp.fromEntityToDomainModel(i))
@@ -79,6 +83,7 @@ class HomeFragment : Fragment() {
     }
 
     val mapp = DataBaseEntitymapper()
+
     /**
      *
      * Setting up recyclerView
@@ -111,17 +116,20 @@ class HomeFragment : Fragment() {
         super.onAttach(context)
     }
 
-    lateinit var homeFragmentViewModelFactory: HomeFragmentViewModelFactory
+    @Inject
+    lateinit var mainRepo: MainRepo
+
+    lateinit var homeFragmentViewModelFactory: MainFragmentViewModelFactory
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val context = requireNotNull(this.activity).application
-        val noteDao = NoteDatabase.getInstance(context).noteDao
-        homeFragmentViewModelFactory =
-            HomeFragmentViewModelFactory(context = context, noteDao = noteDao)
-        viewModel = ViewModelProvider(
+
+        /*homeFragmentViewModelFactory =
+            MainFragmentViewModelFactory(context = context, mainRepo = mainRepo)*/
+       /* viewModel = ViewModelProvider(
             this,
             homeFragmentViewModelFactory
-        ).get(HomeFragmentViewModel::class.java)
+        ).get(HomeFragmentViewModel::class.java)*/
         binding.viewModel = viewModel
         init()
     }
